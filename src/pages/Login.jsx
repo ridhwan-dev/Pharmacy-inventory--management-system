@@ -50,7 +50,7 @@ function Login() {
 
   return (
     <section className="auth-page">
-      <div className="auth-card">
+      <div className="auth-container">
         <h1>PIMS</h1>
         <h2>Welcome Back</h2>
         <p>Sign in to manage your pharmacy inventory.</p>
