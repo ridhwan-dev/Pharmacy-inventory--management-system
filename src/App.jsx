@@ -1,51 +1,103 @@
+
+import { Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
+
 import './App.css';
-import StatCard from './components/StatCard';
 
+import Dashboard from './pages/Dashboard';
+import Medicines from './pages/Medicines';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
-function App () {
+import ProtectedRoute from './components/ProtectedRoute';
+
+import { useAuth } from './context/AuthContext';
+import { logoutUser } from './services/authService';
+
+// Main pharmacy application layout
+function AppLayout({ children }) {
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    try {
+      await logoutUser();
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  }
+
   return (
     <div className="app-container">
-      <aside className="Sidebar">
+      <aside className="sidebar">
         <h2 className="brand">PIMS</h2>
 
         <nav className="navigation">
-          <a href="#"className="nav-link-active">Dashboard</a>
-          <a href="#"className="nav-link">Medicines</a>
-          <a href="#"className="nav-link">Stock alerts</a>
+          <Link to="/" className="nav-link">
+            Dashboard
+          </Link>
+
+          <Link to="/medicines" className="nav-link">
+            Medicines
+          </Link>
         </nav>
       </aside>
+
       <main className="main-content">
         <header className="top-header">
           <div>
             <h1>Pharmacy Dashboard</h1>
-            <p>Manage Your Pharmacy Inventory</p>
+            <p>Manage your pharmacy inventory</p>
           </div>
 
           <div className="user-profile">
-            <span>Pharmacy staff</span>
+            <span>{currentUser?.email}</span>
+
+            <button onClick={handleLogout}>
+              Logout
+            </button>
           </div>
         </header>
-        <section className="dasboard-content">
-          <h2>overview</h2>
-          <div className="stats-grid">
-            <StatCard title="Total Medicine" value={0} />
-            <StatCard title="Low Stock" value={0} />
-            <StatCard title="Expiry Medicines" value={0} />
 
-            
-
-
-
-
-
-      
-          </div>
-        </section>
+        {children}
       </main>
     </div>
-  )
-
-
-
+  );
 }
+
+// Main application routes
+function App() {
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+
+      <Route path="/register" element={<Register />} />
+
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <Dashboard />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/medicines"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <Medicines />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
+
 export default App;
