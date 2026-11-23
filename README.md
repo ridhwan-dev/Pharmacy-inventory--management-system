@@ -98,20 +98,6 @@ Create a Firebase project and enable:
 - Google Authentication
 - Cloud Firestore
 
-Create a `.env` file in the project root and add your Firebase configuration:
-
-```env
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-```
-
-Replace the placeholder values with your Firebase project configuration.
-
-**Important:** Never commit your actual `.env` file to GitHub.
 
 ### Start the development server
 
@@ -189,6 +175,6 @@ firebase deploy --only hosting
 
 GitHub: https://github.com/ridhwan-dev
 
----
-
-*PIMS – Making Pharmacy Inventory Management More Efficient.*
+figma link:
+https://www.figma.com/design/SW9A5P9xkSjS8mYpfXWvCN/Untitled?node-id=0-1&t=jYnSaGeDx0sC9fYE-1
+  
